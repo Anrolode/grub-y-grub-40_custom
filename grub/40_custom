@@ -1,0 +1,35 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+# Entrada para Windows 10/11
+menuentry "Windows 10/11" {
+    insmod part_gpt
+    insmod fat
+    insmod chain
+    set root=(hd0,gpt1)
+    chainloader /EFI/Microsoft/Boot/bootmgfw.efi.bak
+}
+
+# Entrada para Lubuntu
+menuentry 'Lubuntu' --class gnu-linux --class gnu --class os $menuentry_id_option {
+    insmod gzio
+    insmod part_gpt
+    insmod ext2
+    set root='hd0,gpt4'
+    linux /boot/vmlinuz-… root=/dev/sda4 ro quiet splash
+    initrd /boot/initrd.img-…
+}
+
+# Entrada para Zorin OS
+menuentry 'Zorin OS' --class gnu-linux --class gnu --class os $menuentry_id_option {
+    insmod gzio
+    insmod part_gpt
+    insmod ext2
+    set root='hd0,gpt5'
+    linux /boot/vmlinuz-… root=/dev/sda5 ro quiet splash
+    initrd /boot/initrd.img-…
+}
+
